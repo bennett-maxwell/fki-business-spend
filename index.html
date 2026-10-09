@@ -1,0 +1,115 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FKI Business Spend</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{--ground:#f6f6f4;--panel:#fff;--ink:#17191d;--ink2:#4d525b;--ink3:#7b818b;
+--rule:#e2e3e0;--rule2:#caccc9;--accent:#1f5673;--accent-soft:#e7eff4;
+--ok:#2f6b45;--ok-soft:#e7f0ea;--warn:#8f5500;--warn-soft:#f8eeda;--bad:#a32f2f;--bad-soft:#f7e6e4;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){
+--ground:#121417;--panel:#1a1d21;--ink:#eceef0;--ink2:#a8aeb7;--ink3:#7d848d;
+--rule:#2a2e34;--rule2:#394047;--accent:#7db9d6;--accent-soft:#1b2b35;
+--ok:#7fc59a;--ok-soft:#17261d;--warn:#e0ac5c;--warn-soft:#2a2113;--bad:#e98b83;--bad-soft:#2d1a18;}}
+:root[data-theme=dark]{--ground:#121417;--panel:#1a1d21;--ink:#eceef0;--ink2:#a8aeb7;--ink3:#7d848d;
+--rule:#2a2e34;--rule2:#394047;--accent:#7db9d6;--accent-soft:#1b2b35;
+--ok:#7fc59a;--ok-soft:#17261d;--warn:#e0ac5c;--warn-soft:#2a2113;--bad:#e98b83;--bad-soft:#2d1a18;}
+*{box-sizing:border-box}body{margin:0;background:var(--ground);color:var(--ink);
+font:15.5px/1.55 "Source Sans 3",-apple-system,Segoe UI,sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:40px 24px 72px}
+h1,h2{font-family:Archivo,Arial,sans-serif;margin:0;text-wrap:balance}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;
+text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+h1{font-size:clamp(28px,4.4vw,42px);font-weight:700;letter-spacing:-.018em;line-height:1.08}
+.sub{color:var(--ink2);max-width:64ch;margin-top:11px;font-size:16.5px}
+.alert{margin-top:16px;padding:13px 16px;border-left:3px solid var(--bad);background:var(--bad-soft);
+border-radius:0 4px 4px 0;max-width:74ch;font-size:14px;color:var(--ink2)}
+.alert b{color:var(--ink)}
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:1px;background:var(--rule);
+border:1px solid var(--rule);margin:32px 0 8px;border-radius:5px;overflow:hidden}
+.fig{background:var(--panel);padding:17px 19px 15px}
+.fig .n{font-family:"IBM Plex Mono",monospace;font-size:26px;font-weight:600;letter-spacing:-.02em;
+font-variant-numeric:tabular-nums;display:block}
+.fig .l{font-size:12.5px;color:var(--ink3);margin-top:4px;line-height:1.35}
+.fig.bad .n{color:var(--bad)}
+h2{font-size:18.5px;font-weight:600;margin:40px 0 4px}
+h2 .c{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink3);font-weight:400;margin-left:8px}
+.note{color:var(--ink2);font-size:14px;margin:0 0 13px;max-width:72ch}
+.scroll{overflow-x:auto;border:1px solid var(--rule);border-radius:5px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;min-width:760px}
+th{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+color:var(--ink3);font-weight:500;text-align:left;padding:10px 13px;border-bottom:1px solid var(--rule2);white-space:nowrap}
+td{padding:10px 13px;border-bottom:1px solid var(--rule);vertical-align:top;font-size:14.5px}
+tr:last-child td{border-bottom:none}
+.svc{font-weight:600}.cat{color:var(--ink3);font-size:12.5px}
+.amt{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;text-align:right;font-weight:500;white-space:nowrap}
+.ev{color:var(--ink2);font-size:12.5px}
+.pill{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:500;
+letter-spacing:.05em;text-transform:uppercase;padding:2.5px 7px;border-radius:3px;white-space:nowrap}
+.p-ok{background:var(--ok-soft);color:var(--ok)}.p-warn{background:var(--warn-soft);color:var(--warn)}
+.p-bad{background:var(--bad-soft);color:var(--bad)}
+.src{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:9.5px;color:var(--ink3);
+border:1px solid var(--rule2);border-radius:2px;padding:1px 4px;margin-right:3px}
+.flag{display:block;margin-top:5px;font-size:12.5px;color:var(--bad)}
+tr.crit td:first-child{box-shadow:inset 3px 0 0 var(--bad)}
+tfoot td{border-top:1px solid var(--rule2);font-weight:600;padding-top:12px}
+footer{margin-top:38px;padding-top:17px;border-top:1px solid var(--rule);color:var(--ink3);
+font-size:12.5px;font-family:"IBM Plex Mono",monospace;line-height:1.7}
+@media(max-width:560px){.wrap{padding:28px 15px 56px}}
+</style></head><body>
+<div class="wrap">
+<div class="eyebrow">Franchise KI &middot; Business lane &middot; <span id="gen"></span></div>
+<h1>What the business pays for every month</h1>
+<p class="sub">Every recurring business charge, reconciled from two independent sources: Plaid card and bank transactions, and vendor billing email. Personal-lane spend is deliberately not on this page.</p>
+<div class="alert" id="alert"></div>
+<div class="figs" id="figs"></div>
+<h2>Needs attention <span class="c" id="c-att"></span></h2>
+<p class="note">Live subscriptions whose payments are being refused, or with a dated deadline. Most name American Express ending 5003.</p>
+<div class="scroll"><table id="t-att"><thead><tr><th>Service</th><th>Category</th><th class="amt">Per month</th><th>Status</th><th>Evidence</th></tr></thead><tbody></tbody></table></div>
+<h2>Paying normally <span class="c" id="c-act"></span></h2>
+<p class="note">Charging cleanly against the card or bank account.</p>
+<div class="scroll"><table id="t-act"><thead><tr><th>Service</th><th>Category</th><th class="amt">Per month</th><th>Status</th><th>Evidence</th></tr></thead><tbody></tbody>
+<tfoot><tr><td colspan="2">Total active business spend</td><td class="amt" id="tot"></td><td colspan="2" class="cat" id="tot-note"></td></tr></tfoot></table></div>
+<h2>Cancelled or lapsed <span class="c" id="c-can"></span></h2>
+<p class="note">Kept on the page so nobody re-subscribes by accident, and so a &ldquo;cancelled&rdquo; line that is quietly still charging gets caught.</p>
+<div class="scroll"><table id="t-can"><thead><tr><th>Service</th><th>Category</th><th class="amt">Was</th><th>Status</th><th>Evidence</th></tr></thead><tbody></tbody></table></div>
+<h2>Deliberately excluded</h2>
+<div class="scroll"><table id="t-exc"><thead><tr><th>Item</th><th>Why it is not counted</th></tr></thead><tbody></tbody></table></div>
+<footer id="foot"></footer>
+</div>
+<script>
+const money=n=>n==null?"—":"$"+n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+const PILL={active:["p-ok","Paying"],failing:["p-bad","Declining"],critical:["p-bad","Deadline"],cancelled:["p-ok","Closed"]};
+fetch("data/subscriptions.json").then(r=>r.json()).then(d=>{
+  document.getElementById("gen").textContent="Updated "+d.generated;
+  const S=d.services, act=S.filter(x=>x.status==="active"), att=S.filter(x=>x.status==="failing"||x.status==="critical"),
+        can=S.filter(x=>x.status==="cancelled");
+  const live=[...act,...att], tot=live.reduce((a,x)=>a+(x.mo||0),0);
+  const both=S.filter(x=>x.src.length>1).length;
+  document.getElementById("alert").innerHTML="<b>Read this before trusting any single source.</b> Plaid sees "+
+    S.filter(x=>x.src.includes("plaid")).length+" of these services and billing email sees "+
+    S.filter(x=>x.src.includes("email")).length+", but only "+both+" appear in both. A vendor that fails to charge leaves no bank transaction, and a vendor that charges silently sends no email — so either source alone understates the real number. This page is the union.";
+  const figs=[["",money(tot),"Active business spend, per month"],["",money(tot*12).replace(/\.00$/,""),"Annualized"],
+    ["bad",att.length,"Services declining or past due"],["",live.length,"Live business subscriptions"]];
+  document.getElementById("figs").innerHTML=figs.map(f=>
+    `<div class="fig ${f[0]}"><span class="n">${f[1]}</span><span class="l">${f[2]}</span></div>`).join("");
+  const row=x=>{const[p,l]=PILL[x.status];return `<tr class="${x.status==="critical"?"crit":""}">`+
+    `<td><span class="svc">${x.name}</span>${x.flag?`<span class="flag">${x.flag}</span>`:""}</td>`+
+    `<td class="cat">${x.cat}</td><td class="amt">${money(x.mo)}</td>`+
+    `<td><span class="pill ${p}">${l}</span></td>`+
+    `<td class="ev">${x.src.map(s=>`<span class="src">${s}</span>`).join("")}${x.ev}</td></tr>`;};
+  const fill=(id,rows)=>document.querySelector("#"+id+" tbody").innerHTML=rows.map(row).join("");
+  const bymo=(a,b)=>(b.mo||0)-(a.mo||0);
+  att.sort((a,b)=>(a.status==="critical"?-1:b.status==="critical"?1:0)||bymo(a,b));
+  fill("t-att",att); fill("t-act",act.sort(bymo)); fill("t-can",can.sort(bymo));
+  document.getElementById("c-att").textContent=att.length+" services";
+  document.getElementById("c-act").textContent=act.length+" services";
+  document.getElementById("c-can").textContent=can.length+" services";
+  document.getElementById("tot").textContent=money(tot);
+  document.getElementById("tot-note").textContent="  Includes the declining lines above. "+
+    live.filter(x=>!x.mo).length+" service has no amount on any receipt.";
+  document.querySelector("#t-exc tbody").innerHTML=d.excluded.map(e=>
+    `<tr><td class="svc">${e.name}</td><td class="ev">${e.why}</td></tr>`).join("");
+  document.getElementById("foot").innerHTML=d.sources.map(s=>
+    `${s.label} — ${s.kind}, ${s.rows.toLocaleString()} records`).join("<br>")+"<br>"+d.note;
+});
+</script></body></html>
